@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "958476948745",
+    "firebase_url": "https://proyectodam-ccf84-default-rtdb.firebaseio.com",
+    "project_id": "proyectodam-ccf84",
+    "storage_bucket": "proyectodam-ccf84.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958476948745:android:3843dcd7d2ea14dde6efd8",
+        "android_client_info": {
+          "package_name": "com.dam.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADS8c7bjwuz4EECBohotGPXXImmL-six8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958476948745:android:e940e0973b491270e6efd8",
+        "android_client_info": {
+          "package_name": "com.raccoon.gestorc3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADS8c7bjwuz4EECBohotGPXXImmL-six8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
