@@ -1,8 +1,7 @@
 import 'package:clinicasanjuan/ventanaRSSFeed.dart';
-import 'package:clinicasanjuan/ventanaRSSFeedElPais.dart';
+import 'package:clinicasanjuan/MedicinasScreen.dart';
 import 'package:flutter/material.dart';
 import 'ventanaPerfilUsuario.dart';
-import 'ventanaConfiguraciones.dart';
 
 class MyAppVentanaPrincipal extends StatelessWidget {
   const MyAppVentanaPrincipal({super.key});
@@ -16,7 +15,7 @@ class MyAppVentanaPrincipal extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent),
         useMaterial3: true,
       ),
-      home: const MyHomePageVentanaPrincipal(title: 'TAREA RSS FEED'),
+      home: const MyHomePageVentanaPrincipal(title: 'PROYECTO DAM'),
     );
   }
 }
@@ -42,23 +41,6 @@ class _MyHomePageStateVentanaPrincipal
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings_applications_outlined),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const MyAppVentanaConfiguracion()));
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.camera_alt_outlined),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('This is a snackbar')));
-            },
-          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -72,21 +54,21 @@ class _MyHomePageStateVentanaPrincipal
         destinations: const <Widget>[
           NavigationDestination(
               selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.person_2),
-              label: 'Perfil'),
+              icon: Icon(Icons.local_pharmacy_rounded),
+              label: 'FARMACIAS'),
           NavigationDestination(
-              icon: Badge(child: Icon(Icons.rss_feed)), label: 'RSS CLARIN'),
+              icon: Badge(child: Icon(Icons.rss_feed)), label: 'RSS MEDICO'),
           NavigationDestination(
               icon: Badge(
-                child: Icon(Icons.rss_feed_outlined),
+                child: Icon(Icons.medication_rounded),
               ),
-              label: 'RSS EL PAIS'),
+              label: 'MEDICINAS'),
         ],
       ),
       body: [
         const MyAppVentanaPerfilUsuario(),
         const MyAppVentanaRSSFeed(),
-        MyAppVentanaRSSFeedElPais(),
+        MedicinasScreen(),
       ][currentPageIndex],
     );
   }

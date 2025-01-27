@@ -18,7 +18,7 @@ Future<RssFeed> getFeed(String url) async {
 
 void fetchMultipleFeeds() async {
   List<String> rssUrls = [
-    'https://www.clarin.com/rss/lo-ultimo/',
+    'https://www.tucanaldesalud.es/idcsalud-client/cm/tucanaldesalud/rss?locale=es_ES&rssContent=70028',
     'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/ultimas-noticias/portada',
   ];
 

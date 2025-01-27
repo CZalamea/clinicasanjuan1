@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class MyAppVentanaRSSFeed extends StatelessWidget {
   const MyAppVentanaRSSFeed({super.key});
@@ -8,12 +9,12 @@ class MyAppVentanaRSSFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'RSS de Medicina',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.redAccent),
         useMaterial3: true,
       ),
-      home: const MyHomePageVentanaRSSFeed(title: 'Periódico Clarín'),
+      home: const MyHomePageVentanaRSSFeed(title: 'Noticias de Medicina'),
     );
   }
 }
@@ -39,7 +40,8 @@ class _MyHomePageVentanaRSSFeedState extends State<MyHomePageVentanaRSSFeed> {
   // Función para obtener el feed RSS
   Future<RssFeed> _fetchFeed() async {
     try {
-      final response = await http.get(Uri.parse('https://www.clarin.com/rss/lo-ultimo/'));
+      final response = await http.get(Uri.parse(
+          'https://www.tucanaldesalud.es/idcsalud-client/cm/tucanaldesalud/rss?locale=es_ES&rssContent=70028'));
       if (response.statusCode == 200) {
         return RssFeed.parse(response.body);
       } else {
@@ -78,39 +80,31 @@ class _MyHomePageVentanaRSSFeedState extends State<MyHomePageVentanaRSSFeed> {
   Widget _buildFeedList(RssFeed feed) {
     return ListView.builder(
       padding: const EdgeInsets.all(10.0),
-      itemCount: feed.items!.length + 1,
+      itemCount: feed.items!.length,
       itemBuilder: (context, index) {
-        if (index == 0) {
-          return _buildFeedHeader(feed);
-        }
-        return _NewsItem(feed.items![index - 1]);
+        final item = feed.items![index];
+        return GestureDetector(
+          onTap: () => _openUrl(item.link),
+          child: _NewsItem(item),
+        );
       },
     );
   }
 
-  // Widget para el encabezado del feed (imagen y descripción)
-  Widget _buildFeedHeader(RssFeed feed) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 16),
-      child: Row(
-        children: [
-          if (feed.image?.url != null)
-            Image.network(
-              feed.image!.url!,
-              width: 150,
-              height: 35,
-              fit: BoxFit.cover,
-            ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              feed.description ?? 'Sin descripción',
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
-        ],
-      ),
-    );
+  // Función para abrir el enlace en el navegador
+  Future<void> _openUrl(String? url) async {
+    if (url == null || url.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No hay URL disponible')),
+      );
+      return;
+    }
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No se pudo abrir el enlace')),
+      );
+    }
   }
 }
 
@@ -161,7 +155,7 @@ class _NewsItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4.0),
                   Text(
-                    'Autor: ${item.dc?.creator ?? 'Desconocido'}',
+                    'Fecha de publicacion: ${item.dc?.created ?? 'Desconocido'}',
                     style: const TextStyle(
                       fontSize: 12,
                       color: Colors.grey,
@@ -176,5 +170,3 @@ class _NewsItem extends StatelessWidget {
     );
   }
 }
-
-// Widget independiente para mostrar cada ítem de noticia

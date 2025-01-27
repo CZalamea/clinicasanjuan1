@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
+import 'package:clinicasanjuan/PaginaRegistro.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isLoading = false;
+  bool _isPasswordVisible = false; // Variable para controlar la visibilidad de la contraseña
 
   void _mostrarMensaje(String mensaje, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -124,9 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Center(
-        
         child: SizedBox(
           width: 300,
           child: Column(
@@ -144,11 +144,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                obscureText: !_isPasswordVisible, // Control de visibilidad
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   labelText: 'Clave',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
-                obscureText: true,
               ),
               const SizedBox(height: 10),
               isLoading
@@ -157,13 +167,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: _validarIngreso,
                       child: const Text("Ingresar"),
                     ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RegisterPage()),
+                  );
+                },
+                child: const Text("¿No tienes cuenta? Regístrate"),
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  
 }
-
